@@ -55,10 +55,7 @@ navItems {
   display: flex;
   justify-content: space-between;
 }
-.shimmer-filter {
-  display: flex;
-  justify-content: space-between;
-}
+
 .filter-btn {
   margin: 10px;
   cursor: pointer;

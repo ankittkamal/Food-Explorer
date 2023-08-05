@@ -11,13 +11,14 @@ const Body = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  console.log(listOfRestaurants);
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6139391&lng=77.2090212&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      " https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6304203&lng=77.21772159999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
     //console.log(json);
@@ -41,23 +42,23 @@ const Body = () => {
   ) : (
     <>
       <div className="body">
-        <div className="filter dynamic-ui flex justify-between ">
-          <div className="search m-4 p-4">
+        <div className="dynamic-ui flex justify-between ">
+          <div className="search-container m-2 p-4  bg-gray-200 my-2 flex justify-start rounded-xl">
             <input
               type="text"
-              className="search-box border border-solid border-black rounded-xl"
+              className="search-box  rounded-xl p-2 m-1"
               placeholder="  Search"
               value={searchText}
               onChange={(e) => {
                 setSearchText(e.target.value);
               }}
-            ></input>
+            />
             <button
-              className=" search-button px-4 m-2  bg-slate-300 rounded-xl"
-              onClick={() => {
+              className=" search-button m-2 p-1 hover:bg-gray-200 bg-white  rounded-2xl "
+              onClick={(e) => {
                 //filter the restarant card
                 //console.log(searchText);
-                const filteredRestaurant = listOfRestaurants.filter((res) =>
+                const filteredRestaurant = filteredRestaurants?.filter((res) =>
                   res.info?.name
                     .toLowerCase()
                     .includes(searchText.toLowerCase())
@@ -69,12 +70,12 @@ const Body = () => {
               Search
             </button>
           </div>
-          <div className=" top-rated m-4 p-4 flex items-center">
+          <div className=" top-rated p-3 flex justify-end">
             <button
-              className="filter-btn px-4 py-2 bg-gray-300 rounded-xl"
+              className="filter-btn m-2 p-2 rounded-xl shadow-lg bg-blue-100"
               onClick={() => {
                 //filter logic here for top rated restaurant.
-                const filteredList = listOfRestaurants.filter(
+                const filteredList = filteredRestaurants.filter(
                   (res) => res.info.avgRating > 4.1
                 );
                 setFilteredRestaurants(filteredList);
@@ -85,12 +86,24 @@ const Body = () => {
           </div>
         </div>
 
-        <div className="res-container flex flex-wrap ">
+        {/* <div className="res-container flex flex-wrap ">
           {filteredRestaurants.map((restaurant) => (
             <Link to={"/restaurants/" + restaurant.info?.id}>
               <RestaurantCard key={restaurant.info?.id} resData={restaurant} />
             </Link>
           ))}
+        </div> */}
+        <div className="res-container flex flex-wrap">
+          {filteredRestaurants?.map((restaurant) => {
+            return (
+              <Link to={"/restaurants/" + restaurant?.info?.id}>
+                <RestaurantCard
+                  key={restaurant?.info?.id}
+                  resData={restaurant}
+                />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </>

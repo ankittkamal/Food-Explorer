@@ -2,11 +2,15 @@ import { useContext, useState } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import UserContext from "../utils/userContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [btnLogin, setBtnLogin] = useState("Login");
 
   const data = useContext(UserContext);
+
+  const cartItems = useSelector((store) => store.cart.items);
+  console.log(cartItems);
 
   return (
     <div className="flex justify-between shadow-lg   bg-gray-200 text-base">
@@ -27,11 +31,11 @@ const Header = () => {
             <Link to="/contact">Contact Us</Link>
           </li>
           <li className="px-4">
-            <Link to="/cart">Cart</Link>{" "}
+            <Link to="/cart">Cart 🛒-({cartItems.length} items) </Link>{" "}
           </li>
 
           <button
-            className="login"
+            className="login px-2 "
             onClick={() => {
               btnLogin === "Login"
                 ? setBtnLogin("Logout")
